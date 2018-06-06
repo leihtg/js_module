@@ -14,7 +14,7 @@
         let _this = this, curTab = _this.find('.router-link-exact-active');
         let router={},order=[];
         _this.addClass('navtab');
-        items.forEach(t=>{
+        (items||[]).forEach(t=>{
         	addTab(t);
         })
         
@@ -117,7 +117,7 @@
     $.fn.menu=function(items=[],callback){
     	let _this=this;
     	items.forEach(t=>{
-    		let li=renderLi(t,true);
+    		let li=renderLi(t,true,'#');
     		li.addClass('nav-item');
     		_this.append(li);
     	});
@@ -126,10 +126,18 @@
     	});
     }
     
-    function renderLi(item,flag){
+    function clearPath(path=''){
+    	return path.replace(/\/\//g,'/');
+    }
+    
+    function renderLi(item,flag,path){
     	let li=$('<li></li>'),a=$('<a></a>'),span=$('<span></span>');
     	let cs=item.children;
-		a.attr('href',item.path||'javascript:;');
+    	if(item.path.charAt(0)!='/'){
+    		path+='/';
+    	}
+    	path=clearPath(path+item.path);
+		a.attr('href',path);
 		if(cs||flag){
 			span.html(item.name);
 		}else{
@@ -139,15 +147,15 @@
 		if(cs){
 			let ul=$('<ul></ul>');
 			li.append(ul);
-			renderMenu(cs,ul);
+			renderMenu(cs,ul,path);
 		}
     	return li;
     }
     
-    function renderMenu(items,node){
+    function renderMenu(items,node,path){
     	for(let it in items){
-    		let item=items[it],cs=item.children;
-    		let li=renderLi(item,node);
+    		let item=items[it];
+    		let li=renderLi(item,node,path);
     		node.append(li);
     	}
     	return node;
