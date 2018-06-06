@@ -1,0 +1,25 @@
+{
+	"name": "js_module",
+	"version": "1.0.0",
+	"description": "js module",
+	"main": "index.js",
+	"scripts": {
+		"test": "run test"
+	},
+	"dependencies": {
+		"jquery": "^3.3.1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/leihtg/js_module.git"
+	},
+	"keywords": [
+		"js"
+	],
+	"author": "leihtg",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/leihtg/js_module/issues"
+	},
+	"homepage": "https://github.com/leihtg/js_module#readme"
+}
