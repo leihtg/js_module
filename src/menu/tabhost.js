@@ -1,7 +1,20 @@
 /**
  * tabhost
  */
-(function ($) {
+
+(function(root, factory) {
+	if (typeof module === "object" && typeof module.exports === "object") {
+		module.exports = function($) {
+			return factory($);
+		};
+	} else if (typeof define === "function") {
+		define([ 'jquery' ], factory);
+	} else {
+		root["tabhost"] = function($) {
+			return factory($);
+		};
+	}
+})(this, function($) {
 	"use strict"
     /**
 	 * tab标签
@@ -101,6 +114,8 @@
             curTab=_t.addClass('router-link-exact-active');
             _t.data('id', id);
             div.show();
+            let param=_t.data('param');
+            param.target.get(0).click();
             if ($.isFunction(clickFn)) {
                 clickFn(div, _t.data('param'));
             }
@@ -111,55 +126,7 @@
             addTab:addTab
         }
     };
-    /**
-	 * 菜单 绑定ul标签
-	 */
-    $.fn.menu=function(items=[],callback){
-    	let _this=this;
-    	items.forEach(t=>{
-    		let li=renderLi(t,true,'#');
-    		li.addClass('nav-item');
-    		_this.append(li);
-    	});
-    	_this.on('click','',function(){
-    		
-    	});
-    }
-    
-    function clearPath(path=''){
-    	return path.replace(/\/\//g,'/');
-    }
-    
-    function renderLi(item,flag,path){
-    	let li=$('<li></li>'),a=$('<a></a>'),span=$('<span></span>');
-    	let cs=item.children;
-    	if(item.path.charAt(0)!='/'){
-    		path+='/';
-    	}
-    	path=clearPath(path+item.path);
-		a.attr('href',path);
-		if(cs||flag){
-			span.html(item.name);
-		}else{
-			span=item.name;
-		}
-		li.append(a.html(span));
-		if(cs){
-			let ul=$('<ul></ul>');
-			li.append(ul);
-			renderMenu(cs,ul,path);
-		}
-    	return li;
-    }
-    
-    function renderMenu(items,node,path){
-    	for(let it in items){
-    		let item=items[it];
-    		let li=renderLi(item,node,path);
-    		node.append(li);
-    	}
-    	return node;
-    }
+
     /**
 	 * 右键菜单
 	 * 
@@ -216,4 +183,5 @@
     function genId() {
         return Number(+new Date).toString(16);
     }
-}(jQuery));
+    return $.fn.tabhost;
+});
