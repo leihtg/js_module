@@ -5,11 +5,9 @@
 	if (typeof module === "object" && typeof module.exports === "object") {
 		module.exports = factory();
 	} else if (typeof define === "function" && define.amd) {
-		define('beau', [], factory);
-	} else if (typeof exports === "object") {
-		exports["beau"] = factory();
+		define(factory);
 	} else {
-		root["beau"] = factory();
+		root["jbeau"] = factory();
 	}
 })(this, function() {
 	// 需要换行
